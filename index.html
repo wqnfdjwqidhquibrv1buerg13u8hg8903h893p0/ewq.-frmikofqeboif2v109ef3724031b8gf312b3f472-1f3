@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexter - La tua musica, a modo tuo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #70c8ff;
+            --primary-dark: #4da6db;
+            --primary-light: rgba(112, 200, 255, 0.15);
+            --dark-bg: #0d0f18;
+            --darker-bg: #080a12;
+            --card-bg: #151824;
+            --card-hover: #1c1f2e;
+            --light-text: #ffffff;
+            --gray-text: #a0a7c2;
+            --border-color: #2a2f45;
+            --gradient: linear-gradient(135deg, var(--primary-color), #4da6db);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            background-color: rgba(13, 15, 24, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(42, 47, 69, 0.3);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--light-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--gray-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--light-text);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(112, 200, 255, 0.1) 0%, rgba(112, 200, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .hero-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: block;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--gray-text);
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .btn {
+            padding: 18px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(112, 200, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+        }
+
+        .features {
+            padding: 120px 0;
+            background-color: var(--darker-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .section-title p {
+            color: var(--gray-text);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(112, 200, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: 1;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-light);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--light-text);
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card p {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .platforms {
+            padding: 120px 0;
+            background-color: var(--dark-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .platform-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(112, 200, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: 1;
+        }
+
+        .platform-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .platform-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+        }
+
+        .platform-card:hover .platform-icon {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .platform-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .platform-card p {
+            color: var(--gray-text);
+            margin-bottom: 30px;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(112, 200, 255, 0.1) 0%, rgba(112, 200, 255, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(112, 200, 255, 0.1) 0%, rgba(112, 200, 255, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            color: var(--gray-text);
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            background-color: var(--darker-bg);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--gray-text);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .webplayer-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .webplayer-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1100px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .nav-links {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(13, 15, 24, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 1.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 150px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+
+            .feature-card, .platform-card {
+                padding: 30px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .stats {
+                gap: 40px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <span>Nexter</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Funzionalità</a></li>
+                <li><a href="#platforms">Piattaforme</a></li>
+                <li><a href="#cta">Inizia Ora</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    La tua musica,<br>
+                    <span class="hero-gradient">a modo tuo</span>
+                </h1>
+                <p>Personalizza ogni aspetto della tua esperienza musicale. Con Nexter, la musica si adatta a te, non il contrario. Disponibile su tutte le piattaforme.</p>
+                
+                <div class="cta-buttons">
+                    <a href="#cta" class="btn btn-primary">
+                        <i class="fas fa-play-circle"></i> Inizia ad Ascoltare
+                    </a>
+                    <a href="https://web.nexter.qzz.io" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-external-link-alt"></i> Prova Web Player
+                    </a>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10M+</div>
+                        <div class="stat-label">Brani disponibili</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Gratuita</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Disponibilità</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Funzionalità esclusive</h2>
+                <p>Scopri tutto ciò che rende Nexter la scelta migliore per la tua musica</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Controllo totale</h3>
+                    <p>Regola equalizzatore, qualità audio, interfaccia e molto altro. Ogni dettaglio è personalizzabile per adattarsi alle tue preferenze.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Sincronizzazione istantanea</h3>
+                    <p>Le tue playlist e preferiti si sincronizzano in tempo reale su tutti i dispositivi. Inizia su uno, continua su un altro senza interruzioni.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headphones-alt"></i>
+                    </div>
+                    <h3>Audio ad alta definizione</h3>
+                    <p>Goditi la tua musica con audio ad alta definizione fino a 320kbps. Supporto per formati lossless per un'esperienza di ascolto superiore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="platforms" id="platforms">
+        <div class="container">
+            <div class="section-title">
+                <h2>La tua musica, ovunque</h2>
+                <p>Nexter ti segue su tutti i dispositivi con un'esperienza coerente e personalizzata</p>
+            </div>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>iOS</h3>
+                    <p>Design ottimizzato per iPhone e iPad con integrazioni avanzate per l'ecosistema Apple.</p>
+                    <a href="#cta" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Scarica Gratis
+                    </a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h3>Android</h3>
+                    <p>Esperienza nativa su tutti i dispositivi Android, con widget personalizzabili e integrazione completa.</p>
+                    <a href="#cta" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Scarica Gratis
+                    </a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3>Windows</h3>
+                    <p>App desktop performante con supporto multitasking e integrazione nel sistema operativo.</p>
+                    <a href="#cta" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Scarica Gratis
+                    </a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web Player</h3>
+                    <p>Accesso immediato da qualsiasi browser. Nessuna installazione, tutta la potenza di Nexter.</p>
+                    <a href="https://web.nexter.qzz.io" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> web.nexter.qzz.io
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Inizia ad ascoltare<br>a modo tuo</h2>
+                <p>Unisciti a milioni di utenti che hanno già personalizzato la loro esperienza musicale con Nexter. <strong>Completamente gratuita, per sempre.</strong></p>
+                
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.2rem;">
+                        <i class="fas fa-download"></i> Scarica Gratis
+                    </a>
+                </div>
+                
+                <p style="margin-top: 30px; font-size: 1rem;">
+                    Oppure <a href="https://web.nexter.qzz.io" target="_blank" class="webplayer-link">prova subito il Web Player</a> senza registrazione
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Nexter</h3>
+                    <p style="color: var(--gray-text); margin-bottom: 20px;">La tua musica, a modo tuo. Personalizza ogni aspetto della tua esperienza musicale. <strong>Completamente gratuita.</strong></p>
+                    <p>Web Player: <a href="https://web.nexter.qzz.io" target="_blank" class="webplayer-link">web.nexter.qzz.io</a></p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Scarica Gratis</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-apple"></i> iOS</a></li>
+                        <li><a href="#"><i class="fab fa-android"></i> Android</a></li>
+                        <li><a href="#"><i class="fab fa-windows"></i> Windows</a></li>
+                        <li><a href="https://web.nexter.qzz.io" target="_blank"><i class="fas fa-globe"></i> Web Player</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Supporto</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Assistenza</a></li>
+                        <li><a href="#"><i class="fas fa-comments"></i> Community</a></li>
+                        <li><a href="#"><i class="fas fa-newspaper"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Connettiti</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Nexter Music. Completamente gratuita. <a href="https://web.nexter.qzz.io" target="_blank" class="webplayer-link">web.nexter.qzz.io</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            const icon = mobileMenuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden';
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value + (element.textContent.includes('+') ? '+' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const firstStat = statNumbers[0];
+                    if (firstStat.textContent.includes('10M')) {
+                        animateValue(firstStat, 0, 10, 2000);
+                    }
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(document.querySelector('.stats'));
+        
+        const featureCards = document.querySelectorAll('.feature-card');
+        const platformCards = document.querySelectorAll('.platform-card');
+        const allCards = [...featureCards, ...platformCards];
+        
+        if (window.innerWidth > 768) {
+            allCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const cardRect = card.getBoundingClientRect();
+                    
+                    const mouseX = e.clientX - cardRect.left;
+                    const mouseY = e.clientY - cardRect.top;
+                    
+                    const centerX = cardRect.width / 2;
+                    const centerY = cardRect.height / 2;
+                    
+                    const deltaX = mouseX - centerX;
+                    const deltaY = mouseY - centerY;
+                    
+                    const rotateY = (deltaX / centerX) * 5;
+                    const rotateX = -(deltaY / centerY) * 5;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                    
+                    const shadowX = rotateY * 2;
+                    const shadowY = -rotateX * 2;
+                    const shadowBlur = 20;
+                    const shadowOpacity = 0.1 + Math.abs(rotateY/15);
+                    const shadowColor = `rgba(112, 200, 255, ${shadowOpacity})`;
+                    
+                    card.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor}, 0 10px 30px rgba(0, 0, 0, 0.3)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                    card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = '';
+                    }, 500);
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'transform 0.1s ease, box-shadow 0.1s ease';
+                    card.style.zIndex = '10';
+                });
+            });
+        }
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
